@@ -67,14 +67,12 @@ Installing the Arduino libraries
  
 Running the Example sketch
 --------------------------
- If you have correctly installed the libraries, the example sketeches should now be available from within Arduino. Open up    your Arduino IDE and select ads1292r>examples>ads_1292r_breakout_brainbay to open the ECG displaying example for visualization use brainbay freeware(explained below), and  ads1292r>example>Xively_writeYUN7_BPMfiltered_avg to open the   Xively iot HR display example. 
-
+ If you have correctly installed the libraries, the example sketeches should now be available from within Arduino. Open up    your Arduino IDE and select protocentral_max30003>examples>ecg_basic to open the ECG displaying example for visualization.
 This sketch is designed to read the data from the electrodes in real-time and stream them thorugh the UART to a receiving software. 
-
 
 Using Processing - Data Visualisation Software (New!)
 -----------------------------------------------------
- Processing is a data visualisation software, in existence since 2001, used by artists and scientists alike. Its an open source coding framework based on Java. If you are familiar with the Arduino environment, the Processing IDE is similar and you wont have much of a learning curve to climb!
+Processing is a data visualisation software, in existence since 2001, used by artists and scientists alike. Its an open source coding framework based on Java. If you are familiar with the Arduino environment, the Processing IDE is similar and you wont have much of a learning curve to climb!
  
  The following are the steps to run the code:
 
@@ -94,7 +92,7 @@ Using Processing - Data Visualisation Software (New!)
 
  a. Download the necessary files & directories or clone to your desktop from github.
 
- b. Unzipping the archive should make a folder by name ads1292r_shield that contains the visualisation code.
+ b. Unzipping the archive should make a folder by name protocentral_max30003 that contains the visualisation code.
 
  c. Locate the Processing sketchbook directory on your computer. This should have been created automatically when you installed processing. Depending on your operating system, the path will be as follows:
 
@@ -104,11 +102,11 @@ Using Processing - Data Visualisation Software (New!)
 
 **Note:** This directory appears as "Processing" on Windows/Mac, and goes by the name "Sketchbook" on Linux. Create a subdirectory by name "libraries if one doesn't exist already.
 
- d. From the above mentioned "ads1292r_shield" directory Copy/Move the contents of the ADS1292rShield_Breakout/Processing/ces_view_ecg folder to the Processing sketchbook directory which is also mentioned above (Locate the Processing sketchbook)
+ d. From the above mentioned "protocentral_max30003" directory Copy/Move the contents of the protocentral_max30003/Processing/ces_view_ecg folder to the Processing sketchbook directory which is also mentioned above (Locate the Processing sketchbook)
 
- e. Finally, copy the controlP5 and G4P directories from ADS1292rShield_Breakout\Processing\libraries and paste them into the libraries directory of your Processing sketchbook.
+ e. Finally, copy the controlP5 and G4P directories from protocentral_max30003\Processing\libraries and paste them into the libraries directory of your Processing sketchbook.
 
- f. You are all set now to get your first ECG reading visualised from the ADS1292R shield!
+ f. You are all set now to get your first ECG reading visualised from the board!
 
 ### 3. Open Processing & launch the ces_view_ecg
 
@@ -124,7 +122,7 @@ Using Processing - Data Visualisation Software (New!)
 
  e. Once the port selection is appropriate the START button gets enabled. Click "START" to initiate visualisation
 
- f. You should see the ECG wave generated with the values obtained from the ADS1292rShield Breakout Board as shown below.
+ f. You should see the ECG wave generated with the values obtained from the protocentral_max30003 Breakout Board as shown below.
 
 ![ECG Form in Processing](docs/img/processingMAX30003_body.png)
 
