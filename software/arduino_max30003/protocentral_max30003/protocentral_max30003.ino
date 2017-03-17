@@ -56,8 +56,22 @@ void loop()
     
     unsigned long data = (unsigned long) (data0 | data1 | data2);
     signed long sdata = (signed long) (data);
+
+    MAX30003_Reg_Read(RTOR);
+    unsigned int RTOR_msb = (unsigned int) (SPI_temp_32b[0]);
+    RTOR_msb = RTOR_msb <<8;
+    unsigned int RTOR_lsb = (unsigned int) (SPI_temp_32b[1]);
+
+    unsigned int rtor = (RTOR_msb | RTOR_lsb);
+    rtor = rtor >>2 ;
+  
+    float rr =  60000000 /((float)rtor*8); 
+    long hr = (long)rr;
     
-   // Serial.println(sdata);
+  //  Serial.println(hr);
+  //  Serial.print(",");
+   // Serial.println(hr);
+      
 
       DataPacketHeader[0] = 0x0A;
       DataPacketHeader[1] = 0xFA;
@@ -71,21 +85,21 @@ void loop()
       DataPacketHeader[7] = sdata>>16;
       DataPacketHeader[8] = sdata>>24; 
    
-      DataPacketHeader[9] = 0x00;
-      DataPacketHeader[10] = 0x00;
-      DataPacketHeader[11] = 0x00;
-      DataPacketHeader[12] = 0x00; 
+      DataPacketHeader[9] = hr;
+      DataPacketHeader[10] = hr>>8;
+      DataPacketHeader[11] = hr>>16;
+      DataPacketHeader[12] = hr>>24; 
   
       DataPacketHeader[13] = 0x00;
       DataPacketHeader[14] = 0x0b;
   
       for(i=0; i<15; i++) // transmit the data
       {
-          Serial.write(DataPacketHeader[i]);
+        Serial.write(DataPacketHeader[i]);
   
        }    
 
-    delay(4);      
+    delay(1);      
 }
 
 void MAX30003_Reg_Write (unsigned char WRITE_ADDRESS, unsigned long data)
@@ -177,6 +191,9 @@ void MAX30003_begin()
 
     MAX30003_Reg_Write(CNFG_ECG, 0x805000);
     delay(100);
+
+    
+    MAX30003_Reg_Write(CNFG_RTOR1,0x3fc600);
     max30003_synch();
     delay(100);
 }

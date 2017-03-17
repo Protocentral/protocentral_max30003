@@ -41,7 +41,7 @@ public void createGUI(){
   G4P.messagesEnabled(false);
   G4P.setGlobalColorScheme(GCScheme.BLUE_SCHEME);
   G4P.setCursor(ARROW);
-  surface.setTitle("Pulse_Oximeter");
+  surface.setTitle("openview_max30003");
   portList = new GDropList(this, 10, 10, 150, 495, 10);
   portList.setItems(loadStrings("list_626048"), 0);
   portList.setLocalColorScheme(GCScheme.GREEN_SCHEME);

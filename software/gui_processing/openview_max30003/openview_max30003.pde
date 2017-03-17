@@ -68,7 +68,7 @@ int colorValue;
 HelpWidget helpWidget;
 HeaderButton headerButton;
 MessageBox msgBox;
-SPO2_cal s;
+
 boolean visibility=false;
 
 /************** Graph Related Variables **********************/
@@ -137,7 +137,7 @@ public void setup() {
   headerButton = new HeaderButton(0, 0, width, 60);
   helpWidget = new HelpWidget(0, height - 30, width, 40); 
   msgBox = new MessageBox();
-  s = new SPO2_cal();
+ 
   g = new Graph(100, 100, width-120, 200);
   g1 = new Graph(100, 350, width-120, 200);
   setChartSettings();
@@ -263,8 +263,12 @@ void ecsProcessData(char rxch)
       {     
         int data1 = ecsParsePacket(DataRcvPacket1, DataRcvPacket1.length-1);
         int data2 = ecsParsePacket(DataRcvPacket2, DataRcvPacket2.length-1);
+        println(data2);
         receivedVoltage_RED = data1 * (0.00000057220458984375) ;
-        receivedVoltage_IR = data2 * (0.00000057220458984375) ;
+        float hr = (float)data2 / 1000 ;
+       // println(hr);
+
+          oxygenSaturation.setText(hr+"");
 
         time = time+0.1;
         xdata[arrayIndex] = time;
@@ -288,8 +292,8 @@ void ecsProcessData(char rxch)
         {  
           arrayIndex = 0;
           time = 0;
-          RedAC = s.SPO2_Value(ydata);
-          IrAC = s.SPO2_Value(zdata);
+       //   RedAC = s.SPO2_Value(ydata);
+       //   IrAC = s.SPO2_Value(zdata);
           float value = (RedAC/abs(RedDC))/(IrAC/abs(IrDC));
 
           /********  Emprical Formalae  *********/
@@ -299,7 +303,7 @@ void ecsProcessData(char rxch)
 
           SpO2 = (int)(SpO2 * 100);
           SpO2 = SpO2/100;
-          oxygenSaturation.setText(data1+"");
+
         }
         if (startPlot) {
         }

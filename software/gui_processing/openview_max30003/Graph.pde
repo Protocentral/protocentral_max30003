@@ -50,7 +50,7 @@ class Graph
     // text(Title,xPos+Width/5,yPos+20);                            // Heading Title
     textAlign(CENTER);
     textSize(14);
-    text("No.Of Samples  -  "+Title, xPos+Width/2, yPos+Height+t/1.5);                     // x-axis Label 
+    text("Time- sec  ", xPos+Width/2, yPos+Height+t/1.5);                     // x-axis Label 
 
     rotate(-PI/2);                                               // rotate -90 degrees
     text("", -yPos-Height/2, xPos-t*1.6+40);                   // y-axis Label  
