@@ -60,7 +60,7 @@ Running the Arduino Sketch
 --------------------------
 If you have correctly installed the libraries, the example sketeches should now be available from within Arduino.
 
-[Download the Arduino Sketch here for this board here.]()
+[Download the Arduino Sketch here for this board here.](https://github.com/Protocentral/protocentral_max30003/releases/download/v0.1/protocentral_max30003_arduino.zip)
 
 Open up your Arduino IDE and run the Arudino sketch (.ino) file in the archive that you downloaded. Your Arduino should now be programmed to read the ecg data and sending over the USB-UART.  
 
@@ -77,11 +77,12 @@ Java 8 is required on all platforms for running the processing-based GUI applica
 
 Download the zip file containing the executable files from the following links for 32-bit/64-bit Windows. If you do not know if you have a 64-bit or 32-bit computer, please download the 32-bit version.
 
-* [Windows 32-bit Executable (ZIP)](https://github.com/Protocentral/HealthyPi/releases/download/v0.2/healthypi_gui_win32.zip)
-* [Windows 64-bit Executable (ZIP)](https://github.com/Protocentral/HealthyPi/releases/download/v0.2/healthypi_gui_win64.zip)
-* [MacOS Executable (ZIP)](https://github.com/Protocentral/HealthyPi/releases/download/v0.2/healthypi_gui_macos.zip)
-* [Linux 32-bit Executable (ZIP)](https://github.com/Protocentral/HealthyPi/releases/download/v0.2/healthypi_gui_linux32.zip)
-* [Linux 64-bit Executable (ZIP)](https://github.com/Protocentral/HealthyPi/releases/download/v0.2/healthypi_gui_linux64.zip)
+* [Windows 32-bit Executable (ZIP)](https://github.com/Protocentral/protocentral_max30003/releases/download/v0.1/protocentral_max30003_gui-v0.1-win32.zip)
+* [Windows 64-bit Executable (ZIP)](https://github.com/Protocentral/protocentral_max30003/releases/download/v0.1/protocentral_max30003_gui-v0.1-win64.zip/healthypi_gui_win64.zip)
+* [MacOS Executable (ZIP)](https://github.com/Protocentral/protocentral_max30003/releases/download/v0.1/protocentral_max30003_gui-v0.1-macOS.zip)
+* [Linux 32-bit Executable (ZIP)](https://github.com/Protocentral/protocentral_max30003/releases/download/v0.1/protocentral_max30003_gui-v0.1-linux32.zip)
+* [Linux 64-bit Executable (ZIP)](https://github.com/Protocentral/protocentral_max30003/releases/download/v0.1/protocentral_max30003_gui-v0.1-linux64.zip)
+* [Raspberry Pi - Raspbian (ZIP)](https://github.com/Protocentral/protocentral_max30003/releases/download/v0.1/protocentral_max30003_gui-v0.1-linuxARM.zip)
 
 Simply download the appropriate file for your operating system, unzip the contents and run the executable program contained in it. 
 
