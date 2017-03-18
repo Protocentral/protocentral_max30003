@@ -3,7 +3,7 @@ ProtoCentral MAX30003 Single-Channel ECG Breakout Board
 
 ![ProtoCentral MAX30003 Single-channel ECG breakout](docs/img/max30003_brk.jpg)
 
-If you dont already have one, you can buy [ProtoCentral MAX30003 breakout here.](https://www.protocentral.com/healthypi)
+If you dont already have one, you can buy [ProtoCentral MAX30003 breakout here.](https://www.protocentral.com/open-medical-devices/1149-protocentral-max30003-single-lead-ecg-breakout-board.html)
 
 
 MAX30003 is a single-lead ECG monitoring IC which has built-in R-R detection and several other features that make it perfect for a wearable single-lead ECG application.  
@@ -38,7 +38,7 @@ Repository Contents
 * **/docs** - additional documentation
 
  
-Wiring the Breakout to your Arduino
+Wiring the board to your Arduino
 ------------------------------------
 If you have bought the breakout the connection with the Arduino board is as follows:
  
@@ -55,87 +55,48 @@ If you have bought the breakout the connection with the Arduino board is as foll
 | VCC              | Supply 5V                  | 5V            |
 | GND                             | Gnd  
  
-
-Installing the Arduino libraries 
----------------------------------
- The Arduino library contains the functions required to communicate with the breakout. Please follow   the following steps to get the  library downloaded and working:
- Download the library ZIP file from the following link:
-
- https://github.com/Protocentral/MAX30003/tree/master
-
- Unzip the ZIP file and it should result in a folder called "MAX30003". Copy this folder into your Arduino IDE’s libraries folder. Depending on your operating system, this could be either within your Arduino IDE’s foldesualizing r or in  your documents folder. For more information, please check http://arduino.cc/en/Guide/Libraries
  
-Running the Example sketch
+Running the Arduino Sketch
 --------------------------
- If you have correctly installed the libraries, the example sketeches should now be available from within Arduino. Open up    your Arduino IDE and select protocentral_max30003>examples>ecg_basic to open the ECG displaying example for visualization.
-This sketch is designed to read the data from the electrodes in real-time and stream them thorugh the UART to a receiving software. 
+If you have correctly installed the libraries, the example sketeches should now be available from within Arduino.
 
-Using Processing - Data Visualisation Software (New!)
------------------------------------------------------
-Processing is a data visualisation software, in existence since 2001, used by artists and scientists alike. Its an open source coding framework based on Java. If you are familiar with the Arduino environment, the Processing IDE is similar and you wont have much of a learning curve to climb!
+[Download the Arduino Sketch here for this board here.]()
+
+Open up your Arduino IDE and run the Arudino sketch (.ino) file in the archive that you downloaded. Your Arduino should now be programmed to read the ecg data and sending over the USB-UART.  
+
+Using the ProtoCentral MAX30003 GUI
+-----------------------------------
+
+The GUI for visulizing the ECG data as well as parameters like R-R interval and Heartrate is written in Processing, based on Java and is cross-compilable across platforms. 
  
- The following are the steps to run the code:
+Java 8 is required on all platforms for running the processing-based GUI application. You can download Java for your platform from the following link.
 
-### 1.Download Processing for your operating system
+[https://java.com/en/download/](https://java.com/en/download/)
 
- Download the processing ide latest version from the link
+### Processing GUI Installation
 
-* [MAC] (http://download.processing.org/processing-3.1.1-macosx.zip)
-* [Linux 32-bit] (http://download.processing.org/processing-3.1.1-linux32.tgz)
-* [Linux 64-bit] (http://download.processing.org/processing-3.1.1-linux64.tgz)
-* [Windows 32-bit] (https://processing.org/download/?processing)
-* [Windows 64-bit] (https://processing.org/download/?processing)
+Download the zip file containing the executable files from the following links for 32-bit/64-bit Windows. If you do not know if you have a 64-bit or 32-bit computer, please download the 32-bit version.
 
- Once downloaded, unzip the archive and install the app as per your OS.
+* [Windows 32-bit Executable (ZIP)](https://github.com/Protocentral/HealthyPi/releases/download/v0.2/healthypi_gui_win32.zip)
+* [Windows 64-bit Executable (ZIP)](https://github.com/Protocentral/HealthyPi/releases/download/v0.2/healthypi_gui_win64.zip)
+* [MacOS Executable (ZIP)](https://github.com/Protocentral/HealthyPi/releases/download/v0.2/healthypi_gui_macos.zip)
+* [Linux 32-bit Executable (ZIP)](https://github.com/Protocentral/HealthyPi/releases/download/v0.2/healthypi_gui_linux32.zip)
+* [Linux 64-bit Executable (ZIP)](https://github.com/Protocentral/HealthyPi/releases/download/v0.2/healthypi_gui_linux64.zip)
 
-### 2. Download the Processing code for ECG visualisation
+Simply download the appropriate file for your operating system, unzip the contents and run the executable program contained in it. 
 
- a. Download the necessary files & directories or clone to your desktop from github.
+Select the port to which your Arduino is connected to from the "Select Port" dropdown box and data should immedaitely start coming in.
 
- b. Unzipping the archive should make a folder by name protocentral_max30003 that contains the visualisation code.
-
- c. Locate the Processing sketchbook directory on your computer. This should have been created automatically when you installed processing. Depending on your operating system, the path will be as follows:
-
-* On Windows: c:/My Documents/Processing/
-* On MAC: /Users/your_user_name/Documents/Processing/
-* On Linux: /Home/your_user_name/sketchbook/
-
-**Note:** This directory appears as "Processing" on Windows/Mac, and goes by the name "Sketchbook" on Linux. Create a subdirectory by name "libraries if one doesn't exist already.
-
- d. From the above mentioned "protocentral_max30003" directory Copy/Move the contents of the protocentral_max30003/Processing/ces_view_ecg folder to the Processing sketchbook directory which is also mentioned above (Locate the Processing sketchbook)
-
- e. Finally, copy the controlP5 and G4P directories from protocentral_max30003\Processing\libraries and paste them into the libraries directory of your Processing sketchbook.
-
- f. You are all set now to get your first ECG reading visualised from the board!
-
-### 3. Open Processing & launch the ces_view_ecg
-
- a. If Processing IDE was open, close it and reopen to refresh the libraries and sketches. The repositories are not refreshed if the IDE was open while the Sketches and Libraries were being updated.
-
- b. Double-click any of the .pde files in the ces_view_ecg directory to open all of the ecg code in the Processing IDE.
-
- c. If everything done so far was good, clicking the "run" button on the top left corner of the IDE, should run the code! If it does not, make sure you installed your libraries correctly.
-
- d. Once the GUI is running, select the port connect with ECG from the "SELECT PORT" dropdown as shown in the figure below
-
-![Port Selection](docs/img/PortSelection.png)
-
- e. Once the port selection is appropriate the START button gets enabled. Click "START" to initiate visualisation
-
- f. You should see the ECG wave generated with the values obtained from the protocentral_max30003 Breakout Board as shown below.
-
-![ECG Form in Processing](docs/img/processingMAX30003_body.png)
-
-
+![ProtoCentral MAX30003 Single-channel ECG breakout](docs/img/max30003_gui_screenshot.jpg)
 
 Connecting the ECG Electrodes
 ------------------------------
- A 3-electrode cable along with a standard stereo jack is provided along with the shield to connect the electrodes to the     shield. The electrode input connector is highlighted in the below picture.
+A 2-electrode cable along with a standard stereo jack is provided along with the shield to connect the electrodes to the board. The electrode input connector is highlighted in the below picture.
  
- The other side of the electrode connector would connect to snap-on electrodes attached to the body. For testing purposes,    you can use an ECG simulator to provide inputs to the board. 
+The other side of the electrode connector would connect to snap-on electrodes attached to the body. For testing purposes, you can use an ECG simulator to provide inputs to the board. 
 
- Warning:
- When connecting the electodes to the body, it is safer to disconnect the mains power source to the Arduino. For example, if  you are using the Arduino along with a laptop, disconnecting the battery charger from the laptop would be a safe option.
+*Warning:
+When connecting the electodes to the body, it is safer to disconnect the mains power source to the Arduino. For example, if  you are using the Arduino along with a laptop, disconnecting the battery charger from the laptop would be a safe option.*
  
 Placing the Electrodes on the body
 ---------------------------------
