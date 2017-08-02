@@ -21,7 +21,7 @@ Features:
 * High DC Offset range
 * Heart Rate computation using Pan-Tompkins algorithm
 * On-board level translator for 5V-tolerant operation
-* On-board low-noise 3.3V voltage regulator
+* On-board low-noise 1.8V and 3.3V voltage regulator
 
 What's included:
 ----------------
@@ -51,7 +51,7 @@ If you have bought the breakout the connection with the Arduino board is as foll
 | FCLK               | D6                   |  External clock(32KHz)     |
 | INT1             | NC                  |  Interrupt        |
 | INT2             | NC                  |  Interrupt       |
-| 3V3              | Supply                 |  Board which supports 3.3V    |
+| 3V3              | Supply                 |  Board which supports 3.3V and 1.8V    |
 | VCC              | Supply 5V                  | 5V            |
 | GND                             | Gnd  
  
