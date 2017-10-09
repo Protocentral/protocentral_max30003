@@ -320,7 +320,7 @@ void pc_processData(char rxch)
           try {
             date = new Date();
             dateFormat = new SimpleDateFormat("HH:mm:ss");
-            bufferedWriter.write(dateFormat.format(date)+","+ecg+","+rtor_value+","+hr);
+            bufferedWriter.write(dateFormat.format(date)+","+ecg+","+","+hr+","+rtor_value);
             bufferedWriter.newLine();
           }
           catch(IOException e) {

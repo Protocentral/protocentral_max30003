@@ -49,7 +49,7 @@ public void record_click(GButton source, GEvent event) { //_CODE_:record:731936:
       bufferedWriter = new BufferedWriter(output);
       bufferedWriter.write(date.toString()+"");
       bufferedWriter.newLine();
-      bufferedWriter.write("TimeStramp,ECG,SpO2,Respiration");
+      bufferedWriter.write("TimeStramp,ECG,HR,Rtor");
       bufferedWriter.newLine();
     }
   }
@@ -90,7 +90,7 @@ public void createGUI(){
   G4P.messagesEnabled(false);
   G4P.setGlobalColorScheme(GCScheme.BLUE_SCHEME);
   G4P.setCursor(ARROW);
-  surface.setTitle("Healthy Pi");
+  surface.setTitle("openview_max30003");
   portList = new GDropList(this, 5, 7, 200, 385, 10);
   portList.setItems(loadStrings("list_640344"), 0);
   portList.setLocalColorScheme(GCScheme.GREEN_SCHEME);
