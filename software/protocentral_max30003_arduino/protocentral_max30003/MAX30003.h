@@ -1,7 +1,7 @@
 #ifndef MAX30003_H_
 #define MAX30003_H_
 
-#include <arduino.h>
+#include <Arduino.h>
 
 #define WREG 0x00
 #define RREG 0x01

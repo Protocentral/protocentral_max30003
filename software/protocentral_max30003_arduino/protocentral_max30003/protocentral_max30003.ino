@@ -1,3 +1,35 @@
+//////////////////////////////////////////////////////////////////////////////////////////
+//
+//    Demo code for the MAX30003 breakout board
+//
+//    This example plots the ecg through serial UART on rtoProtocentral max30003 gui with sampling rate of 128 sps
+//
+//    Arduino connections:
+//
+//  |MAX30003 pin label| Pin Function         |Arduino Connection|
+//  |-----------------|:--------------------:|-----------------:|
+//  | MISO            | Slave Out            |  D12             |
+//  | MOSI            | Slave In             |  D11             |
+//  | SCLK            | Serial Clock         |  D13             |
+//  | CS              | Chip Select          |  D7              |
+//  | VCC             | Digital VDD          |  +5V             |
+//  | GND             | Digital Gnd          |  Gnd             |
+//  | FCLK            | 32K CLOCK            |  -               |
+//  | INT1            | Interrupt1           |  -               |
+//  | INT2            | Interrupt2           |  -               |
+//
+//    This software is licensed under the MIT License(http://opensource.org/licenses/MIT).
+//
+//   THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT
+//   NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
+//   IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY,
+//   WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
+//   SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+//
+//   For information on how to use, visit https://github.com/Protocentral/protocentral_max30003
+//
+/////////////////////////////////////////////////////////////////////////////////////////
+
 #include<SPI.h>
 #include <TimerOne.h>
 #include "MAX30003.h"
@@ -12,8 +44,8 @@ unsigned long uintECGraw = 0;
 signed long intECGraw=0;
 uint8_t DataPacketHeader[20];
 uint8_t data_len = 8;
- signed long ecgdata;
- unsigned long data;
+signed long ecgdata;
+unsigned long data;
 
 char SPI_temp_32b[4];
 char SPI_temp_Burst[100];
@@ -34,12 +66,16 @@ void setup()
     SPI.begin();
     SPI.setBitOrder(MSBFIRST); 
     SPI.setDataMode(SPI_MODE0);
-    SPI.setClockDivider(SPI_CLOCK_DIV4);
-    
+  
+  //please enable the below lines if you are using older version of Protocentral_max30003 board without 32k f-clock generator
+    /*SPI.setClockDivider(SPI_CLOCK_DIV4);
     pinMode(CLK_PIN,OUTPUT);
-
-    MAX30003_begin();   // initialize MAX30003
-    
+     
+     //Start CLK timer
+    Timer1.initialize(16);              // set a timer of length 100000 microseconds (or 0.1 sec - or 10Hz => the led will blink 5 times, 5 cycles of on-and-off, per second)
+    Timer1.attachInterrupt( timerIsr ); // attach the service routine here
+*/
+    MAX30003_begin();   // initialize MAX30003 
 }
 
 void loop() 
@@ -66,7 +102,7 @@ void loop()
     rtor = ((rtor >>2) & 0x3fff) ;
   
     float hr =  60 /((float)rtor*0.008); 
-   unsigned int HR = (unsigned int)hr;  // type cast to int
+    unsigned int HR = (unsigned int)hr;  // type cast to int
 
     unsigned int RR = (unsigned int)rtor*8 ;  //8ms
 
@@ -110,80 +146,76 @@ void loop()
   
        }    
 
-    delay(1);      
+    delay(8);      
 }
 
 void MAX30003_Reg_Write (unsigned char WRITE_ADDRESS, unsigned long data)
 {
  
-  // now combine the register address and the command into one byte:
-   byte dataToSend = (WRITE_ADDRESS<<1) | WREG;
-
-   // take the chip select low to select the device:
-   digitalWrite(MAX30003_CS_PIN, LOW);
-   
-   delay(2);
-   SPI.transfer(dataToSend);   //Send register location
-   SPI.transfer(data>>16);     //number of register to wr
-   SPI.transfer(data>>8);      //number of register to wr
-   SPI.transfer(data);      //Send value to record into register
-   delay(2);
-   
-   // take the chip select high to de-select:
-   digitalWrite(MAX30003_CS_PIN, HIGH);
+    // now combine the register address and the command into one byte:
+     byte dataToSend = (WRITE_ADDRESS<<1) | WREG;
+  
+     // take the chip select low to select the device:
+     digitalWrite(MAX30003_CS_PIN, LOW);
+     
+     delay(2);
+     SPI.transfer(dataToSend);   //Send register location
+     SPI.transfer(data>>16);     //number of register to wr
+     SPI.transfer(data>>8);      //number of register to wr
+     SPI.transfer(data);      //Send value to record into register
+     delay(2);
+     
+     // take the chip select high to de-select:
+     digitalWrite(MAX30003_CS_PIN, HIGH);
 }
 
 void max30003_sw_reset(void)
 {
-  MAX30003_Reg_Write(SW_RST,0x000000);     
-  delay(100);
+    MAX30003_Reg_Write(SW_RST,0x000000);     
+    delay(100);
 }
 
 void max30003_synch(void)
 {
-  MAX30003_Reg_Write(SYNCH,0x000000);
+    MAX30003_Reg_Write(SYNCH,0x000000);
 }
 
 void MAX30003_Reg_Read(uint8_t Reg_address)
 {
-   uint8_t SPI_TX_Buff;
- 
-   digitalWrite(MAX30003_CS_PIN, LOW);
-  
-   SPI_TX_Buff = (Reg_address<<1 ) | RREG;
-   SPI.transfer(SPI_TX_Buff); //Send register location
+    uint8_t SPI_TX_Buff;
    
-   for ( i = 0; i < 3; i++)
-   {
-      SPI_temp_32b[i] = SPI.transfer(0xff);
-   }
-
-   digitalWrite(MAX30003_CS_PIN, HIGH);
+    digitalWrite(MAX30003_CS_PIN, LOW);
+    
+    SPI_TX_Buff = (Reg_address<<1 ) | RREG;
+    SPI.transfer(SPI_TX_Buff); //Send register location
+     
+    for ( i = 0; i < 3; i++)
+    {
+       SPI_temp_32b[i] = SPI.transfer(0xff);
+    }
+  
+    digitalWrite(MAX30003_CS_PIN, HIGH);
 }
 
 void MAX30003_Read_Data(int num_samples)
 {
-  uint8_t SPI_TX_Buff;
-
-  digitalWrite(MAX30003_CS_PIN, LOW);   
-
-  SPI_TX_Buff = (ECG_FIFO_BURST<<1 ) | RREG;
-  SPI.transfer(SPI_TX_Buff); //Send register location
-
-  for ( i = 0; i < num_samples*3; ++i)
-  {
-    SPI_temp_Burst[i] = SPI.transfer(0x00);
-  }
+    uint8_t SPI_TX_Buff;
   
-  digitalWrite(MAX30003_CS_PIN, HIGH);  
+    digitalWrite(MAX30003_CS_PIN, LOW);   
+  
+    SPI_TX_Buff = (ECG_FIFO_BURST<<1 ) | RREG;
+    SPI.transfer(SPI_TX_Buff); //Send register location
+  
+    for ( i = 0; i < num_samples*3; ++i)
+    {
+      SPI_temp_Burst[i] = SPI.transfer(0x00);
+    }
+    
+    digitalWrite(MAX30003_CS_PIN, HIGH);  
 }
 
 void MAX30003_begin()
-{
-    //Start CLK timer
-    Timer1.initialize(16);              // set a timer of length 100000 microseconds (or 0.1 sec - or 10Hz => the led will blink 5 times, 5 cycles of on-and-off, per second)
-    Timer1.attachInterrupt( timerIsr ); // attach the service routine here
-    
+{    
     max30003_sw_reset();
     delay(100);
     MAX30003_Reg_Write(CNFG_GEN, 0x081007);
@@ -192,10 +224,9 @@ void MAX30003_begin()
     delay(100);
     MAX30003_Reg_Write(CNFG_EMUX,0x0B0000);
     delay(100);
-    MAX30003_Reg_Write(CNFG_ECG, 0x005000);  // d23 - d22 : 10 for 250sps , 00:500 sps
+    MAX30003_Reg_Write(CNFG_ECG, 0x805000);  // d23 - d22 : 10 for 250sps , 00:500 sps
     delay(100);
-
-    
+  
     MAX30003_Reg_Write(CNFG_RTOR1,0x3fc600);
     max30003_synch();
     delay(100);
