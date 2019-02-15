@@ -42,15 +42,15 @@ If you have bought the breakout the connection with the Arduino board is as foll
 |MAX30003 pin label| Arduino Connection   |Pin Function      |
 |----------------- |:--------------------:|-----------------:|
 | MISO             | D12                  |  Slave out|             
-| MOSI       | D11                   |  Slave in           |
-| SCK            | D13                   |  Serial clock     |
-| CS0             | D7                   |  Slave select|
-| FCLK               | D6                   |  External clock(32KHz)     |
-| INT1             | NC                  |  Interrupt        |
-| INT2             | NC                  |  Interrupt       |
-| 3V3              | Supply                 |  Board which supports 3.3V and 1.8V    |
-| VCC              | Supply 5V                  | 5V            |
-| GND                             | Gnd  
+| MOSI             | D11                  |  Slave in           |
+| SCK              | D13                  |  Serial clock     |
+| CS0              | D7                   |  Slave select|
+| FCLK             | NC                   |  External clock(32KHz)     |
+| INT1             | NC                   |  Interrupt        |
+| INT2             | NC                   |  Interrupt       |
+| 3V3              | Supply               |  Board which supports 3.3V and 1.8V    |
+| VCC              | Supply 5V            | 5V            |
+| GND              | Gnd  
 
 
 # Running the Arduino Sketch
