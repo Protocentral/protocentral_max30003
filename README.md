@@ -74,7 +74,7 @@ Java 8 is required on all platforms for running the processing-based GUI applica
 Download the zip file containing the executable files from the following links for 32-bit/64-bit Windows. If you do not know if you have a 64-bit or 32-bit computer, please download the 32-bit version.
 
 * [Windows 32-bit Executable (ZIP)](https://github.com/Protocentral/protocentral_max30003/releases/download/v0.1/protocentral_max30003_gui-v0.1-win32.zip)
-* [Windows 64-bit Executable (ZIP)](https://github.com/Protocentral/protocentral_max30003/releases/download/v0.1/protocentral_max30003_gui-v0.1-win64.zip/healthypi_gui_win64.zip)
+* [Windows 64-bit Executable (ZIP)](https://github.com/Protocentral/protocentral_max30003/releases/download/v0.1/protocentral_max30003_gui-v0.1-win64.zip)
 * [MacOS Executable (ZIP)](https://github.com/Protocentral/protocentral_max30003/releases/download/v0.1/protocentral_max30003_gui-v0.1-macOS.zip)
 * [Linux 32-bit Executable (ZIP)](https://github.com/Protocentral/protocentral_max30003/releases/download/v0.1/protocentral_max30003_gui-v0.1-linux32.zip)
 * [Linux 64-bit Executable (ZIP)](https://github.com/Protocentral/protocentral_max30003/releases/download/v0.1/protocentral_max30003_gui-v0.1-linux64.zip)
