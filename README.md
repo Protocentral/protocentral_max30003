@@ -65,9 +65,12 @@ The GUI for visualizing the ECG and Respiration as well as parameters like Heart
 
 ![Wearing the Electrode](assets/gif-max30003-openview.gif)
 
-Java 8 is required on all platforms for running the processing-based GUI application. You can download Java for your platform from the Official Java website.
+Java 8 is required on all platforms for running the processing-based GUI application. You can download Java for your platform from the [Official Java website](https://www.java.com/en/download/).
 
-You can download and install ProtoCentral OpenView from here: https://github.com/Protocentral/protocentral_openview
+You can download and install [ProtoCentral OpenView from here](https://github.com/Protocentral/protocentral_openview).
+
+Once you have opened OpenView, make sure to select "MAX30003 breakout" under the "Board" dropdown. 
+
 
 # Connecting the ECG Electrodes
 
