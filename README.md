@@ -1,6 +1,6 @@
 # ProtoCentral MAX30003 Single-lead ECG Breakout Board
 
-![ProtoCentral MAX30003 Single-channel ECG breakout](docs/images/max30003_brk.jpg)
+![ProtoCentral MAX30003 Single-channel ECG breakout](assets/max30003_brk.jpg)
 
 If you dont already have one, you can buy [ProtoCentral MAX30003 breakout here.](https://www.protocentral.com/open-medical-devices/1149-protocentral-max30003-single-lead-ecg-breakout-board.html)
 
@@ -32,8 +32,6 @@ The best feature of this chip though is the built-in R-R detection algorithm whi
 
 * **/software** - Arduino library and example sketches.
 * **/hardware** - All Eagle hardware design files
-* **/docs** - additional documentation
-
 
 # Wiring the board to your Arduino
 
@@ -61,30 +59,15 @@ If you have correctly installed the libraries, the example sketeches should now 
 
 Open up your Arduino IDE and run the Arudino sketch (.ino) file in the archive that you downloaded. Your Arduino should now be programmed to read the ecg data and sending over the USB-UART.  
 
-# Using the ProtoCentral MAX30003 GUI
+# Using the ProtoCentral OpenView GUI
 
-The GUI for visulizing the ECG data as well as parameters like R-R interval and Heartrate is written in Processing, based on Java and is cross-compilable across platforms.
+The GUI for visualizing the ECG and Respiration as well as parameters like Heart rate and Respiration rate is written in Processing, based on Java and is cross-compilable across platforms.
 
-Java 8 is required on all platforms for running the processing-based GUI application. You can download Java for your platform from the following link.
+![Wearing the Electrode](assets/gif-max30003-openview.gif)
 
-[https://java.com/en/download/](https://java.com/en/download/)
+Java 8 is required on all platforms for running the processing-based GUI application. You can download Java for your platform from the Official Java website.
 
-## Processing GUI Installation
-
-Download the zip file containing the executable files from the following links for 32-bit/64-bit Windows. If you do not know if you have a 64-bit or 32-bit computer, please download the 32-bit version.
-
-* [Windows 32-bit Executable (ZIP)](https://github.com/Protocentral/protocentral_max30003/releases/download/v0.1/protocentral_max30003_gui-v0.1-win32.zip)
-* [Windows 64-bit Executable (ZIP)](https://github.com/Protocentral/protocentral_max30003/releases/download/v0.1/protocentral_max30003_gui-v0.1-win64.zip)
-* [MacOS Executable (ZIP)](https://github.com/Protocentral/protocentral_max30003/releases/download/v0.1/protocentral_max30003_gui-v0.1-macOS.zip)
-* [Linux 32-bit Executable (ZIP)](https://github.com/Protocentral/protocentral_max30003/releases/download/v0.1/protocentral_max30003_gui-v0.1-linux32.zip)
-* [Linux 64-bit Executable (ZIP)](https://github.com/Protocentral/protocentral_max30003/releases/download/v0.1/protocentral_max30003_gui-v0.1-linux64.zip)
-* [Raspberry Pi - Raspbian (ZIP)](https://github.com/Protocentral/protocentral_max30003/releases/download/v0.1/protocentral_max30003_gui-v0.1-linuxARM.zip)
-
-Simply download the appropriate file for your operating system, unzip the contents and run the executable program contained in it.
-
-Select the port to which your Arduino is connected to from the "Select Port" dropdown box and data should immedaitely start coming in.
-
-![ProtoCentral MAX30003 Single-channel ECG breakout](docs/images/max30003_gui_screenshot.jpg)
+You can download and install ProtoCentral OpenView from here: https://github.com/Protocentral/protocentral_openview
 
 # Connecting the ECG Electrodes
 
@@ -97,7 +80,7 @@ When connecting the electodes to the body, it is safer to disconnect the mains p
 
 # Placing the Electrodes on the body
 
-![Wearing the Electrode](docs/images/body.png)
+![Wearing the Electrode](assets/body.png)
 
 
 License Information
