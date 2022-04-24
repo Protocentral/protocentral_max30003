@@ -70,5 +70,5 @@ void loop()
     max30003.getEcgSamples();   //It reads the ecg sample and stores it to max30003.ecgdata .
 
     Serial.println(max30003.ecgdata);
-    delay(8));
+    delay(8);
 }
