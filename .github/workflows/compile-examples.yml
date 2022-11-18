@@ -24,6 +24,10 @@ jobs:
 
       matrix:
         board:
+          - fqbn: arduino:avr:uno
+            platforms: |
+              - name: arduino:avr
+
           - fqbn: arduino:samd:mkr1000
             platforms: |
               - name: arduino:samd
