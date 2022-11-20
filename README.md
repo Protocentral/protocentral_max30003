@@ -1,4 +1,5 @@
 # ProtoCentral MAX30003 Single-lead ECG Breakout Board
+[![Compile Examples](https://github.com/Protocentral/protocentral_max30003/workflows/Compile%20Examples/badge.svg)](https://github.com/Protocentral/protocentral_max30003/actions?workflow=Compile+Examples)
 
 ![ProtoCentral MAX30003 Single-channel ECG breakout](assets/max30003_brk.jpg)
 
