@@ -29,15 +29,27 @@
 /////////////////////////////////////////////////////////////////////////////////////////
 
 #include<SPI.h>
-#include "protocentral_Max30003.h"
+#include "protocentral_max30003.h"
+
+#define MAX30003_SPI_SPEED 2000000
+
+SPISettings SPI_SETTINGS(MAX30003_SPI_SPEED, MSBFIRST, SPI_MODE1); 
+
+MAX30003::MAX30003(int cs_pin)
+{
+    _cs_pin=cs_pin;
+    pinMode(_cs_pin, OUTPUT);
+    digitalWrite(_cs_pin,HIGH);
+}
 
 void MAX30003::max30003RegWrite (unsigned char WRITE_ADDRESS, unsigned long data)
 {
     // now combine the register address and the command into one byte:
     byte dataToSend = (WRITE_ADDRESS<<1) | WREG;
 
+    SPI.beginTransaction(SPI_SETTINGS);
      // take the chip select low to select the device:
-    digitalWrite(MAX30003_CS_PIN, LOW);
+    digitalWrite(_cs_pin, LOW);
 
     delay(2);
     SPI.transfer(dataToSend);
@@ -47,7 +59,8 @@ void MAX30003::max30003RegWrite (unsigned char WRITE_ADDRESS, unsigned long data
     delay(2);
 
     // take the chip select high to de-select:
-    digitalWrite(MAX30003_CS_PIN, HIGH);
+    digitalWrite(_cs_pin, HIGH);
+    SPI.endTransaction();
 }
 
 
@@ -66,7 +79,8 @@ void MAX30003::max30003RegRead(uint8_t Reg_address, uint8_t * buff)
 {
     uint8_t spiTxBuff;
 
-    digitalWrite(MAX30003_CS_PIN, LOW);
+    SPI.beginTransaction(SPI_SETTINGS);
+    digitalWrite(_cs_pin, LOW);
 
     spiTxBuff = (Reg_address<<1 ) | RREG;
     SPI.transfer(spiTxBuff); //Send register location
@@ -76,15 +90,18 @@ void MAX30003::max30003RegRead(uint8_t Reg_address, uint8_t * buff)
        buff[i] = SPI.transfer(0xff);
     }
 
-    digitalWrite(MAX30003_CS_PIN, HIGH);
+    digitalWrite(_cs_pin, HIGH);
+    SPI.endTransaction();
 }
+
 
 bool MAX30003::max30003ReadInfo(void)
 {
     uint8_t spiTxBuff;
     uint8_t readBuff[4] ;
 
-    digitalWrite(MAX30003_CS_PIN, LOW);
+    SPI.beginTransaction(SPI_SETTINGS);
+    digitalWrite(_cs_pin, LOW);
 
     spiTxBuff = (INFO << 1 ) | RREG;
     SPI.transfer(spiTxBuff); //Send register location
@@ -94,7 +111,8 @@ bool MAX30003::max30003ReadInfo(void)
        readBuff[i] = SPI.transfer(0xff);
     }
 
-    digitalWrite(MAX30003_CS_PIN, HIGH);
+    digitalWrite(_cs_pin, HIGH);
+    SPI.endTransaction();
 
     if((readBuff[0]&0xf0) == 0x50 ){
 
@@ -115,7 +133,9 @@ bool MAX30003::max30003ReadInfo(void)
 void MAX30003::max30003ReadData(int num_samples, uint8_t * readBuffer)
 {
     uint8_t spiTxBuff;
-    digitalWrite(MAX30003_CS_PIN, LOW);
+
+    SPI.beginTransaction(SPI_SETTINGS);
+    digitalWrite(_cs_pin, LOW);
 
     spiTxBuff = (ECG_FIFO_BURST<<1 ) | RREG;
     SPI.transfer(spiTxBuff); //Send register location
@@ -125,7 +145,8 @@ void MAX30003::max30003ReadData(int num_samples, uint8_t * readBuffer)
       readBuffer[i] = SPI.transfer(0x00);
     }
 
-    digitalWrite(MAX30003_CS_PIN, HIGH);
+    digitalWrite(_cs_pin, HIGH);
+    SPI.endTransaction();
 }
 
 void MAX30003::max30003Begin()

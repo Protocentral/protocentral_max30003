@@ -46,7 +46,6 @@
 #define   RTOR            0x25
 #define   NO_OP           0x7F
 
-#define MAX30003_CS_PIN   7
 #define CLK_PIN          6
 #define RTOR_INTR_MASK     0x04
 
@@ -58,6 +57,8 @@ typedef enum
 class MAX30003
 {
   public:
+    MAX30003(int cs_pin);
+
   	unsigned int heartRate;
   	unsigned int RRinterval;
   	signed long ecgdata;
@@ -72,11 +73,11 @@ class MAX30003
     void max30003RegRead(uint8_t Reg_address, uint8_t * buff);
 
   private:
-
     void max30003ReadData(int num_samples, uint8_t * readBuffer);
-
     void max30003Synch(void);
     void max30003RegWrite (unsigned char WRITE_ADDRESS, unsigned long data);
+
+    int _cs_pin;
 };
 
 #endif

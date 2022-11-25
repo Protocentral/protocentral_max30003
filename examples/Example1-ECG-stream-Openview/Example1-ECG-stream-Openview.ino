@@ -32,7 +32,9 @@
 /////////////////////////////////////////////////////////////////////////////////////////
 
 #include<SPI.h>
-#include "protocentral_Max30003.h"
+#include "protocentral_max30003.h"
+
+#define MAX30003_CS_PIN 7
 
 #define CES_CMDIF_PKT_START_1   0x0A
 #define CES_CMDIF_PKT_START_2   0xFA
@@ -47,7 +49,7 @@ const char DataPacketHeader[5] = {CES_CMDIF_PKT_START_1, CES_CMDIF_PKT_START_2, 
 
 uint8_t data_len = 0x0C;
 
-MAX30003 max30003;
+MAX30003 max30003(MAX30003_CS_PIN);
 
 void sendDataThroughUART(void){
 
@@ -94,8 +96,6 @@ void setup()
     digitalWrite(MAX30003_CS_PIN,HIGH); //disable device
 
     SPI.begin();
-    SPI.setBitOrder(MSBFIRST);
-    SPI.setDataMode(SPI_MODE0);
 
     bool ret = max30003.max30003ReadInfo();
     if(ret){

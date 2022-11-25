@@ -32,10 +32,11 @@
 /////////////////////////////////////////////////////////////////////////////////////////
 
 #include<SPI.h>
-#include "protocentral_Max30003.h"
+#include "protocentral_max30003.h"
 
-MAX30003 max30003;
+#define MAX30003_CS_PIN 7
 
+MAX30003 max30003(MAX30003_CS_PIN);
 
 void setup()
 {
@@ -45,8 +46,6 @@ void setup()
     digitalWrite(MAX30003_CS_PIN,HIGH); //disable device
 
     SPI.begin();
-    SPI.setBitOrder(MSBFIRST);
-    SPI.setDataMode(SPI_MODE0);
 
     bool ret = max30003.max30003ReadInfo();
     if(ret){
