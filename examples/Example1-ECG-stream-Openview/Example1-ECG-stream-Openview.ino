@@ -41,7 +41,7 @@
 #define CES_CMDIF_TYPE_DATA     0x02
 #define CES_CMDIF_PKT_STOP      0x0B
 
-#define DATA_LEN                17
+#define DATA_LEN                12
 
 #define ZERO                    0
 
@@ -53,22 +53,22 @@ uint8_t data_len = 0x0C;
 
 MAX30003 max30003(MAX30003_CS_PIN);
 
-void sendDataThroughUART(void){
+void sendDataThroughUART(void)
+{
+  DataPacket[0] = max30003.ecgdata;
+  DataPacket[1] = max30003.ecgdata>>8;
+  DataPacket[2] = max30003.ecgdata>>16;
+  DataPacket[3] = max30003.ecgdata>>24;
 
-  DataPacket[5] = max30003.ecgdata;
-  DataPacket[6] = max30003.ecgdata>>8;
-  DataPacket[7] = max30003.ecgdata>>16;
-  DataPacket[8] = max30003.ecgdata>>24;
+  DataPacket[4] =  max30003.RRinterval ;
+  DataPacket[5] = max30003.RRinterval >>8;
+  DataPacket[6] = 0x00;
+  DataPacket[7] = 0x00;
 
-  DataPacket[9] =  max30003.RRinterval ;
-  DataPacket[10] = max30003.RRinterval >>8;
+  DataPacket[8] = max30003.heartRate ;
+  DataPacket[9] = max30003.heartRate >>8;
+  DataPacket[10] = 0x00;
   DataPacket[11] = 0x00;
-  DataPacket[12] = 0x00;
-
-  DataPacket[13] = max30003.heartRate ;
-  DataPacket[14] = max30003.heartRate >>8;
-  DataPacket[15] = 0x00;
-  DataPacket[16] = 0x00;
 
   //send packet header
   for(int i=0; i<5; i++){
