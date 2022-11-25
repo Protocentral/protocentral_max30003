@@ -40,7 +40,9 @@
 #define CES_CMDIF_PKT_START_2   0xFA
 #define CES_CMDIF_TYPE_DATA     0x02
 #define CES_CMDIF_PKT_STOP      0x0B
-#define DATA_LEN                0x0C
+
+#define DATA_LEN                17
+
 #define ZERO                    0
 
 volatile char DataPacket[DATA_LEN];
