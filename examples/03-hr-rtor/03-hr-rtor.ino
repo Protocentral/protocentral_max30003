@@ -62,15 +62,15 @@ void setup()
     }
 
     Serial.println("Initialising the chip ...");
-    // initialize MAX30003 in RTOR mode
-    max30003.begin();
-    max30003.writeRegister(REG_CNFG_GEN, 0x080004);
-    max30003.writeRegister(REG_CNFG_CAL, 0x720000);
-    max30003.writeRegister(REG_CNFG_EMUX, 0x0B0000);
-    max30003.writeRegister(REG_CNFG_ECG, 0x805000);
-    max30003.writeRegister(REG_CNFG_RTOR1, 0x3FC600);
-    max30003.writeRegister(REG_EN_INT, 0x000401);
-    max30003.writeRegister(REG_SYNCH, 0x000000);
+  // initialize MAX30003 in RTOR mode using new API
+  max30003.begin();
+  max30003.enableUltraLowPowerLeadOn(true);
+  max30003.configureCalibration(true, 0, 0, 0x3, false, 0x0000);
+  max30003.configureEmux(false, true, true, 0x1, 0x1);
+  max30003.configureEcgChannel(1, static_cast<uint8_t>(PgaGain::GAIN_80), true, 0);
+  max30003.configureRtorFull(0xF, 0x6, true, 0x1, 0xC, 0x20, 0x1, 0x3);
+  max30003.configureInterrupts(0x01, false, true, false, 0x1);
+  max30003.syncCommand();
     enableInterruptPin();
     max30003.readRegister(REG_STATUS, statusReg, 3);
 }

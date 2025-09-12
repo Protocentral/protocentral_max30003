@@ -44,6 +44,15 @@ enum : uint8_t {
 // Sampling rates supported
 enum SamplingRate : uint16_t { SR_128 = 128, SR_256 = 256, SR_512 = 512 };
 
+// Programmable gain amplifier (PGA) settings (maps to CNFG_ECG.GAIN codes)
+enum class PgaGain : uint8_t { GAIN_20 = 0, GAIN_40 = 1, GAIN_80 = 2, GAIN_160 = 3 };
+
+// Power modes
+enum class PowerMode : uint8_t { NORMAL = 0, LOW_POWER = 1, SHUTDOWN = 2 };
+
+// RTOR configuration preset
+enum class RtorPreset : uint8_t { DEFAULT = 0, AGGRESSIVE = 1, CONSERVATIVE = 2 };
+
 class MAX30003 {
 public:
   // Construct with CS pin and optional SPI instance (defaults to SPI)
@@ -60,6 +69,45 @@ public:
 
   // Set sampling rate
   bool setSamplingRate(SamplingRate rate);
+
+  // Set PGA gain
+  bool setPgaGain(PgaGain gain);
+
+  // Set power mode
+  bool setPowerMode(PowerMode mode);
+
+  // Configure RTOR detection sensitivity/preset
+  bool configureRtor(RtorPreset preset);
+
+  // Write raw config to a device register (3-byte value)
+  bool writeRawRegister(uint8_t reg, uint32_t value);
+
+  // General configuration controls (CNFG_GEN)
+  bool enableUltraLowPowerLeadOn(bool enable);
+  bool enableEcgChannel(bool enable);
+  bool enableResistiveBias(bool enable, uint8_t rbiasv_selector, bool rbiasp, bool rbiasn);
+
+  // Calibration configuration (CNFG_CAL)
+  bool configureCalibration(bool enableVcal, uint8_t vmode, uint8_t vmag, uint8_t fcal, bool fifty, uint8_t thigh);
+
+  // Input multiplexer (CNFG_EMUX)
+  bool configureEmux(bool polarityInvert, bool openp, bool openn, uint8_t calp_sel, uint8_t caln_sel);
+
+  // ECG channel configuration (CNFG_ECG)
+  bool configureEcgChannel(uint8_t rate_code, uint8_t gain_code, bool dhpf_enable, uint8_t dlpf_code);
+
+  // R-to-R configuration (CNFG_RTOR1/2)
+  bool configureRtorFull(uint8_t wndw, uint8_t gain, bool enableRtor, uint8_t pavg, uint8_t ptsf, uint8_t hoff, uint8_t ravg, uint8_t rhsf);
+
+  // Interrupts and dynamic manager
+  bool configureInterrupts(uint8_t efit, bool clr_fast, bool clr_rrint, bool clr_samp, uint8_t samp_it);
+  bool configureDynamicManager(bool fast_auto, uint8_t fast_th);
+
+  // FIFO and commands
+  bool setFilter(bool enableHighPassHalfHz, uint8_t lowPassHz);
+  bool configureFifo(bool enable, uint8_t watermark);
+  bool fifoReset();
+  bool syncCommand();
 
   // Read single ECG 24-bit signed sample. Returns true on success.
   bool readEcgSample(int32_t &sample);
@@ -89,6 +137,11 @@ private:
 
   void chipSelect(bool active) const noexcept;
   bool sync();
+
+  // Modify a single byte of a 3-byte register (byteIndex: 0=MSB,1=mid,2=LSB)
+  bool modifyRegisterByte(uint8_t reg, uint8_t byteIndex, uint8_t mask, uint8_t value);
+  // Modify a bitfield within a 3-byte register using overall bit positions (msb..lsb)
+  bool modifyRegisterField(uint8_t reg, uint8_t msb, uint8_t lsb, uint32_t value);
 };
 
 #endif // PROTOCENTRAL_MAX30003_H

@@ -47,7 +47,11 @@ void setup()
     }
 
     Serial.println("Initialising the chip ...");
-    max30003.begin();   // initialize MAX30003
+  max30003.begin();   // initialize MAX30003
+  // configure using new API
+  max30003.setSamplingRate(SR_256);
+  max30003.setPgaGain(PgaGain::GAIN_80);
+  max30003.configureEcgChannel(1, static_cast<uint8_t>(PgaGain::GAIN_80), true, 0);
 }
 
 void loop()
