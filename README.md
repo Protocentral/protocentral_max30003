@@ -22,7 +22,7 @@ Connection with the Arduino board is as follows:
 | MISO             | D12                  |  Slave out|             
 | MOSI             | D11                  |  Slave in           |
 | SCK              | D13                  |  Serial clock     |
-| CS0              | D7                   |  Slave select|
+| CS0              | D4                   |  Slave select|
 | FCLK             | NC                   |  External clock(32KHz)     |
 | INT1             | D2                   |  Interrupt        |
 | INT2             | NC                   |  Interrupt       |
@@ -37,6 +37,33 @@ Connection with the Arduino board is as follows:
 
 
 ## For further details, refer [the documentation on MAX30003 breakout board](https://docs.protocentral.com/getting-started-with-max30003/)
+
+Usage
+-----
+
+A compact modern API is provided via the `MAX30003` class. Example:
+
+```cpp
+#include <SPI.h>
+#include "protocentral_max30003.h"
+
+MAX30003 max30003(7);
+
+void setup() {
+	Serial.begin(115200);
+	SPI.begin();
+	if (!max30003.readDeviceID()) while (1);
+	max30003.begin();
+}
+
+void loop() {
+	int32_t sample = 0;
+	max30003.readEcgSample(sample);
+	max30003.updateHeartRate();
+	Serial.println(sample);
+	delay(8);
+}
+```
 
 
 
