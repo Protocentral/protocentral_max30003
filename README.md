@@ -1,12 +1,12 @@
 # ProtoCentral MAX30003 — Single‑lead ECG Breakout
 
-Compact Arduino library and examples for the MAX30003 single‑lead ECG analog front end.
+Arduino library and examples for the MAX30003 single‑lead ECG analog front end.
 
-Highlights
+## Highlights
 - MAX30003 AFE: single‑lead ECG, ultra‑low power operation, integrated R‑R (RTOR) detection and QRS timing.
 - Board: ProtoCentral breakout with level selection for 3.3V/5V systems, SPI interface, and INT pin for event/RTOR notifications.
 
-Quick features
+## Quick features
 - Single‑lead ECG measurement (24‑bit ADC samples)
 - On‑chip R‑R (RTOR) detection and heart‑rate calculation
 - Low power: suitable for battery powered wearables
@@ -24,7 +24,7 @@ Wiring (Arduino defaults used in examples)
 | VCC / 3V3       | 3.3V / 5V   | Power (match board jumper) |
 | GND             | GND         | Ground |
 
-Quick start (example)
+## Quick start (example)
 
 ```cpp
 #include <SPI.h>
@@ -60,24 +60,25 @@ void loop() {
 }
 ```
 
-Examples
+## Examples
 - `examples/01-ecg-openview` — OpenView / UART packet streaming example
 - `examples/02-ecg-plotter` — Arduino Serial Plotter output
 - `examples/03-hr-rtor` — Heart‑rate and RTOR demonstration
 
-Build & upload (arduino-cli)
+## Build & upload using arduino-cli
 
 ```bash
 arduino-cli compile --fqbn arduino:renesas_uno:minima --libraries /path/to/Arduino/libraries /path/to/protocentral_max30003/examples/02-ecg-plotter
 arduino-cli upload -p /dev/ttyACM0 -b arduino:renesas_uno:minima -i /tmp/build/02-ecg-plotter.ino.bin
 ```
 
-Documentation & support
+## Documentation & support
 - Board and getting started: https://docs.protocentral.com/getting-started-with-max30003/
 - Product page: https://www.protocentral.com/open-medical-devices/1149-protocentral-max30003-single-lead-ecg-breakout-board.html
 
-Licenses
+## Licenses
 - Hardware: CERN-OHL-P v2 (see `LICENSE.md`)
 - Software: MIT (see `LICENSE.md`)
 
-If you want a shorter or longer README, or to add a wiring diagram image in this file, tell me where to place it and I will update the README accordingly.
+![License](license_mark.svg)
+
