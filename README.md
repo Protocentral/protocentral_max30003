@@ -1,116 +1,83 @@
-# ProtoCentral MAX30003 Single-lead ECG Breakout Board
-[![Compile Examples](https://github.com/Protocentral/protocentral_max30003/workflows/Compile%20Examples/badge.svg)](https://github.com/Protocentral/protocentral_max30003/actions?workflow=Compile+Examples)
+# ProtoCentral MAX30003 — Single‑lead ECG Breakout
 
+Compact Arduino library and examples for the MAX30003 single‑lead ECG analog front end.
 
-## Don't have one? [Buy it here](https://www.protocentral.com/open-medical-devices/1149-protocentral-max30003-single-lead-ecg-breakout-board.html)
+Highlights
+- MAX30003 AFE: single‑lead ECG, ultra‑low power operation, integrated R‑R (RTOR) detection and QRS timing.
+- Board: ProtoCentral breakout with level selection for 3.3V/5V systems, SPI interface, and INT pin for event/RTOR notifications.
 
-![ProtoCentral MAX30003 Single-channel ECG breakout](assets/max30003_brk.jpg)
+Quick features
+- Single‑lead ECG measurement (24‑bit ADC samples)
+- On‑chip R‑R (RTOR) detection and heart‑rate calculation
+- Low power: suitable for battery powered wearables
+- SPI interface; interrupt output for beat/flags
 
+Wiring (Arduino defaults used in examples)
 
-MAX30003 is a single-lead ECG monitoring IC which has built-in R-R detection and several other features that make it perfect for a wearable single-lead ECG application.  
+| MAX30003 signal | Arduino pin | Notes |
+|-----------------|-------------|-------|
+| MISO            | D12         | SPI MISO |
+| MOSI            | D11         | SPI MOSI |
+| SCLK            | D13         | SPI SCK  |
+| CS              | D4          | Chip select (examples default) |
+| INT1            | D2          | Interrupt / RTOR flag |
+| VCC / 3V3       | 3.3V / 5V   | Power (match board jumper) |
+| GND             | GND         | Ground |
 
-Several new features on this chip make it ideal for wearable applications. First is the low power consumption - just 85 uW of power and can work from 1.1 V onwards ! Also of interest is the fact that it can work with only two chest electrodes without the need for a third right-leg drive (DRL) electrode.
-
-The best feature of this chip though is the built-in R-R detection algorithm which can measure the time between successive peaks of the QRS complex of the ECG. This means that heart-computation comes right out of the box without any microcontroller-side code requirement. Heart-rate computation just got a lot easier !!
-
-## Hardware Setup
-
-Connection with the Arduino board is as follows:
-
-|MAX30003 pin label| Arduino Connection   |Pin Function      |
-|----------------- |:--------------------:|-----------------:|
-| MISO             | D12                  |  Slave out|             
-| MOSI             | D11                  |  Slave in           |
-| SCK              | D13                  |  Serial clock     |
-| CS0              | D4                   |  Slave select|
-| FCLK             | NC                   |  External clock(32KHz)     |
-| INT1             | D2                   |  Interrupt        |
-| INT2             | NC                   |  Interrupt       |
-| 3V3              | Supply               |  Board which supports 3.3V and 1.8V    |
-| VCC              | Supply 5V            | 5V            |
-| GND              | Gnd  
-
-
-# Visualizing output
-
-![Wearing the Electrode](assets/gif-max30003-openview.gif)
-
-
-## For further details, refer [the documentation on MAX30003 breakout board](https://docs.protocentral.com/getting-started-with-max30003/)
-
-Usage
------
-
-A compact modern API is provided via the `MAX30003` class. Example:
+Quick start (example)
 
 ```cpp
 #include <SPI.h>
 #include "protocentral_max30003.h"
 
-MAX30003 max30003(7);
+// Use chip select pin D4 (examples default)
+MAX30003 max30003(4);
 
 void setup() {
-	Serial.begin(115200);
-	SPI.begin();
-	if (!max30003.readDeviceID()) while (1);
-	max30003.begin();
+  Serial.begin(115200);
+  SPI.begin();
+
+  if (!max30003.readDeviceID()) {
+    while (1) { delay(1000); }
+  }
+
+  max30003.begin();         // start sensor, default sampling
+  max30003.setSamplingRate(MAX30003::SRATE_1000HZ); // optional: change sample rate
 }
 
 void loop() {
-	int32_t sample = 0;
-	max30003.readEcgSample(sample);
-	max30003.updateHeartRate();
-	Serial.println(sample);
-	delay(8);
+  int32_t ecg = 0;
+  if (max30003.readEcgSample(ecg)) {   // returns true when a new sample is available
+    Serial.println(ecg);               // 24‑bit sign‑extended ADC value
+  }
+
+  // RTOR / heart rate (library keeps latest values)
+  max30003.updateHeartRate();
+  Serial.print("HR:"); Serial.print(max30003.heartRate());
+  Serial.print(" RR(ms):"); Serial.println(max30003.rrInterval());
+
+  delay(8);
 }
 ```
 
+Examples
+- `examples/01-ecg-openview` — OpenView / UART packet streaming example
+- `examples/02-ecg-plotter` — Arduino Serial Plotter output
+- `examples/03-hr-rtor` — Heart‑rate and RTOR demonstration
 
+Build & upload (arduino-cli)
 
-License Information
-===================
+```bash
+arduino-cli compile --fqbn arduino:renesas_uno:minima --libraries /path/to/Arduino/libraries /path/to/protocentral_max30003/examples/02-ecg-plotter
+arduino-cli upload -p /dev/ttyACM0 -b arduino:renesas_uno:minima -i /tmp/build/02-ecg-plotter.ino.bin
+```
 
-![License](license_mark.svg)
+Documentation & support
+- Board and getting started: https://docs.protocentral.com/getting-started-with-max30003/
+- Product page: https://www.protocentral.com/open-medical-devices/1149-protocentral-max30003-single-lead-ecg-breakout-board.html
 
-This product is open source! Both, our hardware and software are open source and licensed under the following licenses:
+Licenses
+- Hardware: CERN-OHL-P v2 (see `LICENSE.md`)
+- Software: MIT (see `LICENSE.md`)
 
-Hardware
----------
-
-**All hardware is released under the [CERN-OHL-P v2](https://ohwr.org/cern_ohl_p_v2.txt)** license.
-
-Copyright CERN 2020.
-
-This source describes Open Hardware and is licensed under the CERN-OHL-P v2.
-
-You may redistribute and modify this documentation and make products
-using it under the terms of the CERN-OHL-P v2 (https:/cern.ch/cern-ohl).
-This documentation is distributed WITHOUT ANY EXPRESS OR IMPLIED
-WARRANTY, INCLUDING OF MERCHANTABILITY, SATISFACTORY QUALITY
-AND FITNESS FOR A PARTICULAR PURPOSE. Please see the CERN-OHL-P v2
-for applicable conditions
-
-Software
---------
-
-**All software is released under the MIT License(http://opensource.org/licenses/MIT).**
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
-
-Documentation
--------------
-**All documentation is released under [Creative Commons Share-alike 4.0 International](http://creativecommons.org/licenses/by-sa/4.0/).**
-![CC-BY-SA-4.0](https://i.creativecommons.org/l/by-sa/4.0/88x31.png)
-
-You are free to:
-
-* Share — copy and redistribute the material in any medium or format
-* Adapt — remix, transform, and build upon the material for any purpose, even commercially.
-The licensor cannot revoke these freedoms as long as you follow the license terms.
-
-Under the following terms:
-
-* Attribution — You must give appropriate credit, provide a link to the license, and indicate if changes were made. You may do so in any reasonable manner, but not in any way that suggests the licensor endorses you or your use.
-* ShareAlike — If you remix, transform, or build upon the material, you must distribute your contributions under the same license as the original.
-
-Please check [*LICENSE.md*](LICENSE.md) for detailed license descriptions.
+If you want a shorter or longer README, or to add a wiring diagram image in this file, tell me where to place it and I will update the README accordingly.
